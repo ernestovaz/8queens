@@ -1,3 +1,5 @@
+import random
+
 def evaluate(individual):
     count = 0
     for cur_x,cur_y in enumerate(individual[1::],1):    #começa no segundo elemento
@@ -19,15 +21,12 @@ def crossover(a,b,index):
 
 
 def mutate(individual, m):
-    """
-    Recebe um indivíduo e a probabilidade de mutação (m).
-    Caso random() < m, sorteia uma posição aleatória do indivíduo e
-    coloca nela um número aleatório entre 1 e 8 (inclusive).
-    :param individual:list
-    :param m:int - probabilidade de mutacao
-    :return:list - individuo apos mutacao (ou intacto, caso a prob. de mutacao nao seja satisfeita)
-    """
-    raise NotImplementedError  # substituir pelo seu codigo
+    rand = random.SystemRandom().randint(1,8)
+    if rand < m:
+        pos = random.SystemRandom().randint(0,7)
+        num = random.SystemRandom().randint(1,8)
+        individual[pos] = num
+    return individual
 
 
 def run_ga(g, n, k, m, e):
