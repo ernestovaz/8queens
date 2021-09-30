@@ -21,22 +21,49 @@ def crossover(a,b,index):
 
 
 def mutate(individual, m):
-    rand = random.SystemRandom().randint(1,8)
+    indiv = individual.copy()
+    rand = random.SystemRandom().randint(0,100)/100
     if rand < m:
         pos = random.SystemRandom().randint(0,7)
         num = random.SystemRandom().randint(1,8)
-        individual[pos] = num
-    return individual
+        indiv[pos] = num
+    return indiv
+
+
+def random_indiv_list(n):
+    lis = []
+    for i in range(n):
+        item = []
+        for j in range(8):
+            num = random.SystemRandom().randint(1,8)
+            item.append(num)
+        lis.append(item) 
+    return lis
+
+def selection(given_p,k):
+    p = given_p.copy()
+    k_items = [] 
+    for i in range(k):
+        rand = random.SystemRandom().randint(0,len(p)-1)
+        k_items.append(p.pop(rand))
+    p1 = tournament(k_items)
+    k_items.remove(p1)
+    p2 = tournament(k_items)
+    return p1,p2
 
 
 def run_ga(g, n, k, m, e):
-    """
-    Executa o algoritmo genético e retorna o indivíduo com o menor número de ataques entre rainhas
-    :param g:int - numero de gerações
-    :param n:int - numero de individuos
-    :param k:int - numero de participantes do torneio
-    :param m:float - probabilidade de mutação (entre 0 e 1, inclusive)
-    :param e:bool - se vai haver elitismo
-    :return:list - melhor individuo encontrado
-    """
-    raise NotImplementedError  # substituir pelo seu codigo
+    p = random_indiv_list(n)
+    for i in range(g):
+        if e: p_dash = tournament(p)  #elitismo, p_dash = p'
+        else: p_dash = []  
+        while len(P)<n:
+            p1,p2 = selection(p,k)
+            cross_index = random.SystemRandom().randint(1,8)
+            o1,o2 = crossover(p1,p2,cross_index)
+            o1 = mutate(o1,m)
+            o2 = mutate(o2,m)
+            p_dash.extend([o1,o2])
+        p = p_dash 
+    return tournament(p)
+
