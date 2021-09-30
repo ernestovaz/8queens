@@ -1,23 +1,17 @@
 def evaluate(individual):
-    """
-    Recebe um indivíduo (lista de inteiros) e retorna o número de ataques
-    entre rainhas na configuração especificada pelo indivíduo.
-    Por exemplo, no individuo [2,2,4,8,1,6,3,4], o número de ataques é 9.
-
-    :param individual:list
-    :return:int numero de ataques entre rainhas no individuo recebido
-    """
-    raise NotImplementedError  # substituir pelo seu codigo
+    count = 0
+    for cur_x,cur_y in enumerate(individual[1::],1):    #começa no segundo elemento
+        dist = 0
+        for y in individual[cur_x-1::-1]:               #faz backtrack e procura conflitos com peças anteriores
+            dist += 1
+            if      y == cur_y:         count += 1
+            elif    y == cur_y+dist:    count += 1
+            elif    y == cur_y-dist:    count += 1
+    return count
 
 
 def tournament(participants):
-    """
-    Recebe uma lista com vários indivíduos e retorna o melhor deles, com relação
-    ao numero de conflitos
-    :param participants:list - lista de individuos
-    :return:list melhor individuo da lista recebida
-    """
-    raise NotImplementedError  # substituir pelo seu codigo
+    return max(participants, key=evaluate())
 
 
 def crossover(parent1, parent2, index):
