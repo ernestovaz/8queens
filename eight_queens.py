@@ -55,9 +55,9 @@ def selection(given_p,k):
 def run_ga(g, n, k, m, e):
     p = random_indiv_list(n)
     for i in range(g):
-        if e: p_dash = tournament(p)  #elitismo, p_dash = p'
+        if e: p_dash = [tournament(p)]  #elitismo, p_dash = p'
         else: p_dash = []  
-        while len(P)<n:
+        while len(p_dash)<n:
             p1,p2 = selection(p,k)
             cross_index = random.SystemRandom().randint(1,8)
             o1,o2 = crossover(p1,p2,cross_index)
